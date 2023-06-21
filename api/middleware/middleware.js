@@ -36,7 +36,6 @@ if(!name || !name.trim()){
   })
 } else {
     req.name = name.trim()
-    res.status(201).json(name)
     next()
     }
 }
