@@ -1,10 +1,10 @@
-const User= require('../users/users-model')
+const User = require('../users/users-model')
 
 function logger(req, res, next) {
-  // DO YOUR MAGIC
   const timestamp = new Date().toLocaleString()
   const method = req.method
   const url = req.originalUrl
+
   console.log(`[${timestamp}] ${method} to ${url}`)
   next()
 }
@@ -28,26 +28,33 @@ try{
 }
 
 function validateUser(req, res, next) {
-  // DO YOUR MAGIC
 const { name } = req.body
 
-if(!name){
+if(!name || !name.trim()){
   res.status(400).json({
     message: 'Missing required name field'
   })
 } else {
-  res.status(201).json(name)
-      next()
+    req.name = name.trim()
+    res.status(201).json(name)
+    next()
     }
 }
 
 function validatePost(req, res, next) {
-  // DO YOUR MAGIC
-  console.log('validatePost middleware')
-  next()
-}
+  const { text } = req.body
 
-// do not forget to expose these functions to other modules
+  if(!text || !text.trim()){
+    res.status(400).json({
+      message: 'Missing required text field'
+    })
+  } else {
+      req.text = text.trim()
+      res.status(201).json(text)
+      next()
+      }
+  }
+
 module.exports = {
 logger,
 validateUserId,
